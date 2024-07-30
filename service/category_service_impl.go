@@ -45,6 +45,26 @@ func (service *CategoryServiceImpl) Create(ctx context.Context, request web.Cate
 	return helper.ToCategoryResponse(category)
 }
 
+// func (service *CategoryServiceImpl) Update(ctx context.Context, request web.CategoryRequestUpdate) web.CategoryResponse {
+// 	errValidate := service.Validate.Struct(request)
+// 	helper.PanicIfError(errValidate)
+
+// 	tx, err := service.DB.Begin()
+// 	helper.PanicIfError(err)
+// 	defer helper.CommitOrRollback(tx)
+
+// 	category, err := service.CategoryRepository.FindByID(ctx, tx, request.ID)
+// 	if err != nil {
+// 		panic(exception.NewErrorNotFound(err.Error()))
+// 	}
+
+// 	category.Name = request.Name
+
+// 	category = service.CategoryRepository.Update(ctx, tx, category)
+
+// 	return helper.ToCategoryResponse(category)
+// }
+
 func (service *CategoryServiceImpl) Update(ctx context.Context, request web.CategoryRequestUpdate) web.CategoryResponse {
 	errValidate := service.Validate.Struct(request)
 	helper.PanicIfError(errValidate)
@@ -53,14 +73,21 @@ func (service *CategoryServiceImpl) Update(ctx context.Context, request web.Cate
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
 
+	// Find category by ID
 	category, err := service.CategoryRepository.FindByID(ctx, tx, request.ID)
 	if err != nil {
+		// Handle category not found error
 		panic(exception.NewErrorNotFound(err.Error()))
 	}
 
-	category.Name = request.Name
+	// Check if the new name is different
+	if category.Name != request.Name {
+		// Update category name
+		category.Name = request.Name
 
-	category = service.CategoryRepository.Update(ctx, tx, category)
+		// Save updated category
+		category = service.CategoryRepository.Update(ctx, tx, category)
+	}
 
 	return helper.ToCategoryResponse(category)
 }

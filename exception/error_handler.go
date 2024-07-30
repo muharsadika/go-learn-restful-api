@@ -29,7 +29,7 @@ func errorValidation(writer http.ResponseWriter, request *http.Request, err inte
 
 		webResponse := web.WebResponse{
 			Code:   http.StatusBadRequest,
-			Status: "Bad Request",
+			Status: "BAD REQUEST",
 			Data:   exception.Error(),
 		}
 
@@ -49,7 +49,7 @@ func errorNotFound(writer http.ResponseWriter, request *http.Request, err interf
 
 		webResponse := web.WebResponse{
 			Code:   http.StatusNotFound,
-			Status: "Not Found",
+			Status: "NOT FOUND",
 			Data:   exception.Error,
 		}
 
@@ -66,7 +66,7 @@ func errorInternalServer(writer http.ResponseWriter, request *http.Request, err 
 
 	webResponse := web.WebResponse{
 		Code:   http.StatusInternalServerError,
-		Status: "Internal Server Error",
+		Status: "INTERNAL SERVER ERROR",
 		Data:   err,
 	}
 

@@ -1,3 +1,8 @@
+// data akses layer ke domain category (repository pattern)
+// best practice buat kontrak seperti file ini repository domain menggunakan interface
+// kemudian membuat implementasi dalam bentuk struct
+// jadi disini adalah repository function yang bisa support semua api yang dibutuhkan
+
 package repository
 
 import (
